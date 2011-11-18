@@ -10,9 +10,13 @@ public class RoutingManager
 
 	public static void onMapLoaded()
 	{
-		//buildRoute(??name??,false);
+		//buildRoute(baseroute,false);
 	}
-	public static Route getRoute(Car ca,long current)
+	public static Route getRoute(Car ca,Node current)
+	{
+		return getRoute(ca,current.id);
+	}
+	public static Route getRoute(Car ca,int current)
 	{
 		BareRoute k=new BareRoute(current,ca.destination);
 		if(routeHashes.containsKey(k))
@@ -29,5 +33,6 @@ public class RoutingManager
 	}
 	public static Route buildRoute(BareRoute bare,boolean priority)
 	{
+		return null;
 	}
 }

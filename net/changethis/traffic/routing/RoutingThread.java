@@ -1,20 +1,26 @@
 package net.changethis.traffic.routing;
 
-import java.util.Array
+import net.changethis.traffic.Node;
+import net.changethis.traffic.World;
+import java.util.LinkedList;
 
 public class RoutingThread extends Thread
 {
-	long start;
-	long end;
-	LinkedList<long> fromStart;
-	LinkedList<long> fromEnd;
-	public RoutingThread(long begin,long en)
+	Node pointA;
+	Node pointB;
+	LinkedList<Node> fromStart;
+	LinkedList<Node> fromEnd;
+	public RoutingThread(BareRoute br)
 	{
-		start=begin;
-		end=en;
-		fromStart=new LinkedList<long>();
-		fromEnd=new LinkedList<long>();
-		fromStart.offerFirst(begin);
-		fromEnd.offerLast(end);
+		pointB=Node.nodelist.get(br.routeStart);
+		pointA=Node.nodelist.get(br.routeEnd);
+		fromStart=new LinkedList<Node>();
+		fromEnd=new LinkedList<Node>();
+		fromStart.offerFirst(pointA);
+		fromEnd.offerLast(pointB);
+	}
+	public void run()
+	{
+		int i=5+6;//filler code
 	}
 }

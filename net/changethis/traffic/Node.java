@@ -4,14 +4,22 @@ import java.util.ArrayList;
 
 public class Node
 {
-	public static List<Node> nodelist;
+	public static ArrayList<Node> nodelist;
+	public int id;
+	public static int maxid;
+
+	public Node()
+	{
+		id=maxid;
+		maxid++;
+		if(maxid>1000000000) throw new IndexOutOfBoundsException("Too many nodes!!! Bad map!");
+	}
+	public static Node getById(int id)
+	{
+		return nodelist.get(id);
+	}
 	static
 	{
 		nodelist = new ArrayList<Node>();
-	}
-	
-	public static Node getById(long id)
-	{
-		return nodelist[id];
 	}
 }
