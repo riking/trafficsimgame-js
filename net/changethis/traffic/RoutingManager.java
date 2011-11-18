@@ -6,9 +6,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RoutingManager
 {
-	static ConcurrentHashMap<BareRoute,Route> routeHashes;
+	public static ConcurrentHashMap<BareRoute,Route> routeHashes;
+
 	public static void onMapLoaded()
 	{
+		//buildRoute(??name??,false);
 	}
 	public static Route getRoute(Car ca,long current)
 	{
@@ -19,8 +21,13 @@ public class RoutingManager
 		}
 		else
 		{
-			return buildRoute(k);
+			return buildRoute(k,true);
 		}
 	}
-	public static 
+	public static Route buildRoute(BareRoute bare)
+	{ return buildRoute(bare,true);
+	}
+	public static Route buildRoute(BareRoute bare,boolean priority)
+	{
+	}
 }
