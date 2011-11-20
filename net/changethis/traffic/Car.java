@@ -3,5 +3,11 @@ package net.changethis.traffic;
 public class Car
 {
 	int destination;
-	Node[] route;
+	Route route;
+	int current;
+
+	public void overrideRoute(int next) //can ONLY call from traffic lights
+	{
+		route.overrideRoute(current,next,destination);
+	}
 }

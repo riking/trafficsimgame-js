@@ -1,38 +1,48 @@
 package net.changethis.traffic;
 
 import java.util.HashMap;
-import net.changethis.traffic.routing.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RoutingManager
 {
-	public static ConcurrentHashMap<BareRoute,Route> routeHashes;
+	public static ConcurrentHashMap<BareRoute,Route> routeHashes = new ConcurrentHashMap<>();
 
 	public static void onMapLoaded()
 	{
 		//buildRoute(baseroute,false);
 	}
-	public static Route getRoute(Car ca,Node current)
+	public static Route getRoute(Car ca)
 	{
-		return getRoute(ca,current.id);
+		return getRoute(new BareRoute(ca.current,ca.destination));
 	}
-	public static Route getRoute(Car ca,int current)
+	public static Route getRoute(int current, int dest)
 	{
-		BareRoute k=new BareRoute(current,ca.destination);
+		return getRoute(new BareRoute(current,dest));
+	}
+	public static Route getRoute(BareRoute k)
+	{
 		if(routeHashes.containsKey(k))
 		{
 			return routeHashes.get(k);
 		}
 		else
 		{
-			return buildRoute(k,true);
+			return buildRouteRealtime(new BareRoute(k));//cloned for "escape analysis", read http://docs.oracle.com/javase/7/docs/technotes/guides/vm/performance-enhancements-7.html 
 		}
 	}
-	public static Route buildRoute(BareRoute bare)
-	{ return buildRoute(bare,true);
-	}
-	public static Route buildRoute(BareRoute bare,boolean priority)
+	public static void buildRoute(BareRoute bare)
 	{
-		return null;
+		RoutingThread rt=new RoutingThread(bare);
+		rt.start();
+	}
+	public static Route buildRouteRealtime(BareRoute bare)
+	{
+		RoutingThread rt=new RoutingThread(bare);
+		rt.run();
+		return routeHashes.get(bare);
+	}
+	public static void taskDone(BareRoute b, Route r)
+	{
+		routeHashes.put(b,r);
 	}
 }

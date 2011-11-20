@@ -1,6 +1,4 @@
-package net.changethis.traffic.routing;
-
-import net.changethis.traffic.*;
+package net.changethis.traffic;
 
 public class BareRoute
 {
@@ -15,5 +13,10 @@ public class BareRoute
 	{
 		routeStart=start;
 		routeEnd=end;
+	}
+	public BareRoute(BareRoute o)
+	{
+		routeStart=o.routeStart;
+		routeEnd=o.routeEnd;
 	}
 }

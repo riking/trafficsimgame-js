@@ -1,4 +1,4 @@
-package net.changethis.traffic.routing;
+package net.changethis.traffic;
 
 import net.changethis.traffic.Node;
 import net.changethis.traffic.World;
@@ -10,17 +10,28 @@ public class RoutingThread extends Thread
 	Node pointB;
 	LinkedList<Node> fromStart;
 	LinkedList<Node> fromEnd;
+	BareRoute arg;
 	public RoutingThread(BareRoute br)
 	{
+		arg=br;
 		pointB=Node.nodelist.get(br.routeStart);
 		pointA=Node.nodelist.get(br.routeEnd);
 		fromStart=new LinkedList<Node>();
 		fromEnd=new LinkedList<Node>();
-		fromStart.offerFirst(pointA);
-		fromEnd.offerLast(pointB);
+		fromStart.add(pointA);
+		fromEnd.add(pointB);
 	}
 	public void run()
 	{
+		
 		int i=5+6;//filler code
+		/*}
+		fromEnd.removeFirst();
+		fromStart.addAll(fromEnd);
+		*/
+		/*
+		Route ret = new Route(fromStart);
+		RoutingManager.taskDone(br,ret);
+		*/
 	}
 }
