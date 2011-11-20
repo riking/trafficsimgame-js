@@ -1,0 +1,7 @@
+This project is written in Java. To view the code, open src/
+For downloads, open jars/
+To compile, use javac src/*.java
+
+The idea of this project is to create a sort of a "game" with traffic simulation.
+The point that will make it different from other games is that it will allow users to define their own rules for traffic lights to follow.
+The traffic lights will use JavaScript. (hence the name of the repo).
