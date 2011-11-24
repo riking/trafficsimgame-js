@@ -1,8 +1,6 @@
 package net.changethis.traffic;
 
-import net.changethis.traffic.Node;
-import net.changethis.traffic.World;
-import java.util.LinkedList;
+import java.util.*;
 
 public class RoutingThread extends Thread
 {
@@ -11,6 +9,7 @@ public class RoutingThread extends Thread
 	LinkedList<Node> fromStart;
 	LinkedList<Node> fromEnd;
 	BareRoute arg;
+	static int maxiter=30;
 	public RoutingThread(BareRoute br)
 	{
 		arg=br;
@@ -23,7 +22,7 @@ public class RoutingThread extends Thread
 	}
 	public void run()
 	{
-		
+		ListIterator lia=pointA.nodelist.listIterator();
 		int i=5+6;//filler code
 		/*}
 		fromEnd.removeFirst();
@@ -34,4 +33,6 @@ public class RoutingThread extends Thread
 		RoutingManager.taskDone(br,ret);
 		*/
 	}
+	public void check()
+	{}
 }
