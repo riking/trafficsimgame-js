@@ -10,7 +10,18 @@ public class RoutingManager
 
 	public static void onMapLoaded()
 	{
-		//ThreadRoutingInit
+		
+		//Add all 2-step routes. Note, need to figure out collisions (ie A>BC, B>D, C>D)
+		float divisions=Node.maxid/4;
+		ThreadRoutingInit[] threads = new ThreadRoutingInit[4];
+		threads[0]=new ThreadRoutingInit(2, 1, (int)divisions+1);
+		threads[1]=new ThreadRoutingInit(2, (int)divisions-1, (int)(divisions*2)+1);
+		threads[2]=new ThreadRoutingInit(2, (int)(divisions*2)-1, (int)(divisions*3)+1);
+		threads[3]=new ThreadRoutingInit(2, (int)(divisions*3)-1, Node.maxid);
+		threads[0].start();
+		threads[1].start();
+		threads[2].start();
+		threads[3].start();
 	}
 	public static Route getRoute(Car ca)
 	{

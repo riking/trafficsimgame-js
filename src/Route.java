@@ -6,10 +6,12 @@ public class Route
 {
 	public Node routeStart;
 	public Node routeEnd;
-	public List<Node> routeList;
+	public LinkedList<Node> routeList = new LinkedList<>();
 	public Route(Collection<Node> theRoute)
 	{
 		routeList.addAll(theRoute);
+		routeStart=routeList.getFirst();
+		routeEnd=routeList.getLast();
 	}
 	public void overrideRoute(Collection<Node> replacement) //could be called from map. maybe.
 	{
