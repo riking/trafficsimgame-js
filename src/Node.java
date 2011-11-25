@@ -5,9 +5,12 @@ import java.util.ArrayList;
 public class Node
 {
 	public static ArrayList<Node> nodelist;
-	public int id;
 	public static int maxid;
-
+	
+	public int id;
+	public Node[] connections;
+	
+	
 	public Node()
 	{
 		id=maxid;

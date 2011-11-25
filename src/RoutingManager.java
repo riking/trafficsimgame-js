@@ -7,9 +7,10 @@ public class RoutingManager
 {
 	public static ConcurrentHashMap<BareRoute,Route> routeHashes = new ConcurrentHashMap<>();
 
+
 	public static void onMapLoaded()
 	{
-		//buildRoute(baseroute,false);
+		//ThreadRoutingInit
 	}
 	public static Route getRoute(Car ca)
 	{
