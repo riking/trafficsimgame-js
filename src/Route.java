@@ -21,7 +21,7 @@ public class Route
 	public void overrideRoute(int current,int next,int destination) //called from cars
 	{
 		routeList.clear();
-		routeList.add(Node.nodelist.get(current));
+		routeList.add(Node.idGet(current));
 		Route r=RoutingManager.getRoute(new BareRoute(next,destination));
 		routeList.addAll(r.routeList);
 	}

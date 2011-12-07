@@ -25,12 +25,17 @@ public class Node
 		return nodelist.get(id);
 	}
 	
-	public void addConnection(Node other)//for maps
+	public void addConnection(Node other)//for maps only
 	{
+		if(!World.mapinit) throw new IllegalArgumentException("Connections may not be added except during map initialization");
 		this.connections.add(other);
 	}
 	public void addConnection(int other) { addConnection(nodelist.get(other)); }
 	
+	public double getDist(Node other)
+	{
+		return 3;
+	}
 	static
 	{
 		nodelist = new ArrayList<Node>();

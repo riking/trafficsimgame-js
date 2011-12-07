@@ -1,5 +1,8 @@
 package net.changethis.traffic;
 
+import java.util.ListIterator;
+import java.util.LinkedList;
+
 public class RoutingTask implements Runnable
 {
 	Node cur, con, start, end;
@@ -17,7 +20,7 @@ public class RoutingTask implements Runnable
 	 1 = Queued
 	 2 = Done
 	 */
-	ListIterator liter;
+	ListIterator<Node> liter;
 	BareRoute arg;
 
 	static short extraIters = 3; // Extra steps allowed to make a better path once we find the finish.
@@ -77,12 +80,12 @@ public class RoutingTask implements Runnable
 					visitstatus[i] = 2;
 				}
 			}
-			if(visitstatus[end.id] == 2 && !dontstop)
+			if(visitstatus[end.id] == 2) // If we've found the endpoint
 			{
 				stopcount++;
 			}
 		}
-		LinkedList<Node> lee = new LinkedList<>(3);
+		LinkedList<Node> lee = new LinkedList<>();
 		cur = end;
 		for(cur = end; cur != start; lee.addFirst(cur), cur = links[cur.id])
 		{} // Pray to your deity of choice that this works.

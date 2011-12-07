@@ -24,14 +24,14 @@ class ThreadRoutingInit extends Thread
 		{
 			Node curNode=Node.idGet(cur);
 			
-			ListIterator iter1 = curNode.connections.listIterator();
+			ListIterator<Node> iter1 = curNode.connections.listIterator();
 			while(iter1.hasNext())
 			{
-				other = (Node)iter1.next();
-				ListIterator iter2 = other.connections.listIterator();
+				other = iter1.next();
+				ListIterator<Node> iter2 = other.connections.listIterator();
 				while(iter2.hasNext())
 				{
-					second = (Node)iter2.next();
+					second = iter2.next();
 					temp.add(curNode);
 					temp.add(other);
 					temp.add(second);
