@@ -14,7 +14,7 @@ public class BareRoute
 		routeStart=start;
 		routeEnd=end;
 	}
-	public BareRoute(BareRoute o)
+	public BareRoute(BareRoute o) // Clone
 	{
 		routeStart=o.routeStart;
 		routeEnd=o.routeEnd;
