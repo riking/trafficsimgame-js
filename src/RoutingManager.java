@@ -27,7 +27,7 @@ public class RoutingManager
 
 	public static Route getRoute(Car ca)
 	{
-		return getRoute(new BareRoute(ca.current,ca.destination));
+		return getRoute(new BareRoute(ca.getCurrentNode(),ca.getDestination()));
 	}
 
 	public static Route getRoute(int current, int dest)

@@ -3,13 +3,25 @@ package net.changethis.traffic;
 public class Car
 {
 	int destination;
+	int last;
 	Route route;
-	int current;
+	Road currentroad;
 	float renderx;
 	float rendery;
 	double yaw;
-	public void overrideRoute(int next) //can ONLY call from traffic lights
+	
+	public Car(int start,int dest)
 	{
-		route.overrideRoute(current,next,destination);
+		last = start;
+		destination = dest;
+	}
+	public int getDestination()
+	{ return destination; }
+	public int getCurrentNode()
+	{ return last; }
+	
+	void overrideRoute(int next) // should ONLY call from traffic lights
+	{
+		route.overrideRoute(last,next,destination);
 	}
 }
