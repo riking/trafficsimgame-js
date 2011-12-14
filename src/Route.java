@@ -25,4 +25,8 @@ public class Route
 		Route r=RoutingManager.getRoute(new BareRoute(next,destination));
 		routeList.addAll(r.routeList);
 	}
+	public Node getNextNode(Node n)
+	{
+		return routeList.get(routeList.indexOf(n)+1);
+	}
 }

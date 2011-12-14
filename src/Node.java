@@ -2,13 +2,20 @@ package net.changethis.traffic;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.io.File;
 
-public class Node
+public class Node implements IRenderable
 {
 	int id;
 	ArrayList<Node> connections;
 	TreeMap<Node,Road> roadmap = new TreeMap<>(NodeComparator.instance);
 	IJunction manager;
+
+	float posx;
+	float posy;
+	float rotyaw;
+	File texture;
+	float texscale;
 	
 	private static ArrayList<Node> nodelist;
 	public static int maxid=1;
@@ -47,6 +54,8 @@ public class Node
 		return id == other.id;
 	}
 
+	public void addConnection(int other, double dist, double speed) { addConnection(idGet(other),dist,speed); }
+
 	public void addConnection(Node other, double dist, double speed)
 	 throws BadMapException
 	{
@@ -59,7 +68,6 @@ public class Node
 		Road newroad = new Road(this, other, dist, speed);
 		roadmap.put(other,newroad);
 	}
-	public void addConnection(int other, double dist, double speed) { addConnection(idGet(other),dist,speed); }
 	private void addConnection(Node n1, Road r1)
 	{
 		connections.add(n1);
@@ -70,6 +78,11 @@ public class Node
 	{
 		Road lroad = roadmap.get(other);
 		return lroad.distance;
+	}
+
+	public Road getConnectionRoad(Node other)
+	{
+		return roadmap.get(other);
 	}
 
 	static
