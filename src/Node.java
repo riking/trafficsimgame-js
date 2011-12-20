@@ -51,6 +51,7 @@ public class Node implements IRenderable
 	
 	public boolean equals(Node other)
 	{
+	
 		return id == other.id;
 	}
 
