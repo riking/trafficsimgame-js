@@ -3,7 +3,9 @@ import javax.swing.*;
 public class GameMain
 {
 	public static World curWorld;
-	private static boolean inGame;
+	private static boolean inGame=false;
+
+
 	private static void createAndShowGUI() {
 		//Create and set up the window.
 		JFrame frame = new JFrame("GameMain");
@@ -26,5 +28,4 @@ public class GameMain
 	        	}
 	        });
 	}
-}
 }
