@@ -6,7 +6,7 @@ public class Route
 {
 	public Node routeStart;
 	public Node routeEnd;
-	public LinkedList<Node> routeList = new LinkedList<>();
+	public LinkedList<Node> routeList = new LinkedList<Node>();
 	public Route(Collection<Node> theRoute)
 	{
 		routeList.addAll(theRoute);

@@ -2,15 +2,8 @@ package net.changethis.traffic;
 
 import java.io.File;
 
-public class Car implements IRenderable
+public class Car extends Renderable
 {
-	float posx;
-	float posy;
-	float rotyaw;
-	File texture;
-	float texscale;
-
-	
 	int destination;
 	int last;
 	Node nextNode,lastNode,destNode;

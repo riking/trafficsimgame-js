@@ -35,7 +35,7 @@ public class RoutingTask implements Runnable
 		arg = br;
 	}
 
-	public void run()
+	@Override public void run()
 	{
 		makeRoute();
 		RoutingManager.taskDone(arg,r);
@@ -85,7 +85,7 @@ public class RoutingTask implements Runnable
 				stopcount++;
 			}
 		}
-		LinkedList<Node> lee = new LinkedList<>();
+		LinkedList<Node> lee = new LinkedList<Node>();
 		cur = end;
 		for(cur = end; cur != start; lee.addFirst(cur), cur = links[cur.id])
 		{} // Pray to your deity of choice that this works.

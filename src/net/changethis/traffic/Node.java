@@ -4,45 +4,29 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 import java.io.File;
 
-public class Node implements IRenderable
+public class Node extends Renderable
 {
 	int id;
 	ArrayList<Node> connections;
-	TreeMap<Node,Road> roadmap = new TreeMap<>(NodeComparator.instance);
-	IJunction manager;
-
-	float posx;
-	float posy;
-	float rotyaw;
-	File texture;
-	float texscale;
+	public TreeMap<Node,Road> roadmap = new TreeMap<Node,Road>(NodeComparator.instance);
+	private IJunction manager;
+        boolean ready = false;
 	
 	private static ArrayList<Node> nodelist;
 	public static int maxid=1;
 
-	public Node()
+	public Node(IJunction inter)
 	{
-		id=maxid;
-		maxid++;
-		nodelist.add(id,this);
-		if(maxid>1000000000) throw new BadMapException("Too many nodes!!! Bad map!");
+                this.manager = inter; 
 	}
-	
-	public Node(IJunction mgr)
-	{
-		this();
-		manager = mgr;
-	}
-	
-	public void setManager(IJunction mgr)
-	{
-		if(manager != null)
-		{
-			throw new UnsupportedOperationException("I'll get to this later");
-		}
-		manager = mgr;
-	}
-	
+	public Node setLocation(float x, float y, File tex, float scale)
+        {
+            this.posx = x;
+            this.posy = y;
+            this.texture = tex;
+            this.texscale = scale;
+            return this;
+        }
 	public static Node idGet(int id)
 	{
 		if(id<=0) throw new ArrayIndexOutOfBoundsException("Attempt to get Node ID < 1");

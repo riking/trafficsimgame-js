@@ -1,11 +1,10 @@
 package net.changethis.traffic;
 
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RoutingManager
 {
-	public static ConcurrentHashMap<BareRoute,Route> routeHashes = new ConcurrentHashMap<>();
+	public static ConcurrentHashMap<BareRoute,Route> routeHashes = new ConcurrentHashMap<BareRoute,Route>();
 
 
 	public static void onMapLoaded()
