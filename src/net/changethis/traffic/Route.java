@@ -13,17 +13,17 @@ public class Route
 		routeStart=routeList.getFirst();
 		routeEnd=routeList.getLast();
 	}
-	public void overrideRoute(Collection<Node> replacement) //could be called from map. maybe.
+	public void overrideRoute(Collection<Node> replacement) // MANUAL user adjustment
+	throws IllegalArgumentException
 	{
+		LinkedList<Node> rep = new LinkedList<Node>(replacement);
+		if((rep.getLast() != routeEnd) || (rep.getFirst != routeStart))
+		{
+			throw new IllegalArgumentException("Inconsistent starting and ending points");
+		}
 		routeList.clear();
 		routeList.addAll(replacement);
-	}
-	public void overrideRoute(int current,int next,int destination) //called from cars
-	{
-		routeList.clear();
-		routeList.add(Node.idGet(current));
-		Route r=RoutingManager.getRoute(new BareRoute(next,destination));
-		routeList.addAll(r.routeList);
+		
 	}
 	public Node getNextNode(Node n)
 	{
