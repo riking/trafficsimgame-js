@@ -1,4 +1,3 @@
-
 import world
 
 class Car:
@@ -57,8 +56,38 @@ class Car:
 	
 baseCarType = Car
 
+routecache = {}
+
+def clearroutecache():
+	routecache = {}
+
+
+# Better routing algo (using dist):
+# .py import operator;sorted({"three":3, "five":5, "four":4, "one":1}.values())
 def doRoute(car,begin,end,map):
-	pass
+	if (begin, end) in routecache:
+		return routecache[(begin,end)]
+	#key = node, val = nodefrom
+	bestroute = {begin:begin}
+	queue=[begin]
+	
+	while end not in bestroute:
+		nod = queue.pop()
+		for n in nod.connections.keys():
+			if n not in bestroute:
+				bestroute[n]=nod
+				queue.append(n)
+			if n == end:
+				break
+	del queue
+	#start building route
+	n = end
+	a=[start]
+	a.append(bestroute[n])
+	n=bestroute[n]
+		
+			
+	
 def doRouteT(car,node1,node2,end,map):
 	a = doRoute(node1,node2,map).remove(node2)
 	b = doRoute(node2,end,map)
