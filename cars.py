@@ -13,6 +13,8 @@ class Car:
 		self.destnode = destination
 		self.timetonext = 1
 
+	def __str__(self):
+		print("car at %s with %d ticks to %s" % (self.curroad.getNode(self.curnode),self.timetonext,self.curnode))
 
 	def notifyRoadChange(self,turnnode,newnode,oldroad,newroad,map):
 		if newnode == self.destnode:
@@ -40,6 +42,7 @@ class Car:
 	def tick(self,road,node,map,rand):
 		self.onTick(road,node,map,rand)
 		self.timetonext -= 1
+		print("car tick")
 		return self.timetonext <= 0
 			
 	def emergency_reroute(self,road,turnnode,map):
