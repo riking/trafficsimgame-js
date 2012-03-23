@@ -87,6 +87,11 @@ class Map:
 		
 		for i in range(output_size):
 			print(''.join([j for j in output[i]]))
+			
+		for n in self.nodelist:
+			for r in n.connections.values():
+				for c in r.
+			
 
 	def tick(self,rand):
 		for n in self.nodelist:
@@ -108,6 +113,13 @@ class Road:
 	def getNode(self,refnode=None):
 		return self.node2 if refnode==self.node1 else self.node1
 		
+	def carList(self,refnode=None):
+		if not refnode:
+			return self.cars
+		else:
+			return self.cars[refnode]
+			
+			
 	def addCarFrom(self,onode,car):
 		self.cars[self.getNode(onode)].append(car)
 	
