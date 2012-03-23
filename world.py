@@ -1,6 +1,6 @@
 from __future__ import division;
 import math,random;
-import vectors,node,cars;
+import vectors,cars;
 
 class Map:
 	def __init__(self,siz):
@@ -12,8 +12,15 @@ class Map:
 			n.cleanup()
 		
 	def makeNodes(self,density,roadrange,rand):
+		import node;
 		for i in range(int(self.size * density)):
-			q=Node((rand.randint(1,self.size), rand.randint(1,self.size)))
+			q=None
+			#should replace with a customizable weights function
+			if rand.random() < 0.1:
+				q=node.CarGenNode(((rand.randint(1,self.size), rand.randint(1,self.size))))
+			else:
+				q=Node((rand.randint(1,self.size), rand.randint(1,self.size)))
+				
 			for n in self.nodelist:
 				if n.dist(q) < roadrange *2* density:
 					break
