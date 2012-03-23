@@ -82,10 +82,11 @@ def doRoute(car,begin,end,map):
 	del queue
 	#start building route
 	n = end
-	a=[start]
-	a.append(bestroute[n])
-	n=bestroute[n]
-		
+	a=[]
+	while n != begin:
+		a.append(bestroute[n])
+		n=bestroute[n]
+	return a[::-1]
 			
 	
 def doRouteT(car,node1,node2,end,map):
