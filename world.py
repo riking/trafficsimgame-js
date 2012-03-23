@@ -55,9 +55,9 @@ class Map:
 		output_size = 40
 		output_res = self.size / output_size
 		#
-		FILLER = 1
-		ROAD = 2
-		NODE = 3
+		FILLER = ' '
+		ROAD = '+'
+		NODE = '#'
 		#
 		import array;
 		output = []
@@ -79,7 +79,7 @@ class Map:
 			output[p[0]][p[1]] = NODE
 		
 		for i in range(output_size):
-			print(''.join([(' ' if j==FILLER else ('+' if j==ROAD else ('#' if j==NODE else ' '))) for j in output[i]]))
+			print(''.join([j for j in output[i]]))
 
 	def tick(self,rand):
 		for n in self.nodelist:
@@ -99,7 +99,7 @@ class Road:
 		self.cars = {n1:[],n2:[]}
 
 	def getNode(self,refnode=None):
-		return self.node2 if refnode==node1 else node1
+		return self.node2 if refnode==self.node1 else self.node1
 		
 	def addCarFrom(self,onode,car):
 		self.cars[self.getNode(onode)].append(car)
@@ -171,8 +171,8 @@ class Node:
 	
 	def tick(self,map,rand):
 		self.onTick(map,rand)
-		for r in self.connections:
-			r.tick()
+		for r in self.connections.values():
+			r.tick(self,map,rand)
 	
 	def onTick(self,map,rand):
 		pass #Reserved for subclasses
