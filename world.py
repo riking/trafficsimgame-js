@@ -85,12 +85,14 @@ class Map:
 			p = n.pos// output_res
 			output[p[0]][p[1]] = NODE
 		
+		# print output[]
 		for i in range(output_size):
 			print(''.join([j for j in output[i]]))
 			
 		for n in self.nodelist:
 			for r in n.connections.values():
-				for c in r.
+				for c in r.carList(n):
+					print(c)
 			
 
 	def tick(self,rand):
