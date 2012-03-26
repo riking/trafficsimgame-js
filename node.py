@@ -1,4 +1,3 @@
-
 import world,cars
 
 class CarGenNode (world.Node):
@@ -6,10 +5,12 @@ class CarGenNode (world.Node):
 		world.Node.__init__(self,position)
 		self.delay = delay
 		self.car = cartype
-		self.tickcount = 0
+		self.tickcount = 1
 		
 	
 	def onTick(self,map,rand):
-		self.tickcount += 1
-		if self.tickcount >= self.delay:
+		self.tickcount -= 1
+		if self.tickcount <= 0:
+			self.tickcount = self.delay
 			c = self.car(self,map,rand,rand.choice(map.nodelist))
+			c.routeInit()
