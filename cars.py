@@ -14,25 +14,44 @@ class Car:
 		self.timetonext = 1
 
 	def __str__(self):
-		print("car at %s with %d ticks to %s" % (self.curroad.getNode(self.curnode),self.timetonext,self.curnode))
+		return "car at %s with %d ticks to %s" % (self.curroad.getNode(self.curnode),self.timetonext,self.curnode)
+
+	def __del__(self):
+		print("deleting car")
+
+	def destination(self):
+		return self.destnode
+
+	def routeInit(self,origin,map,rand):
+		r = doRoute(self,origin,self.destnode,map)
+		if r:
+			self.route = r
 
 	def notifyRoadChange(self,turnnode,newnode,oldroad,newroad,map):
-		if newnode == self.destnode:
-			newroad.deleteCar(self)
-			return
 		self.curnode = newnode
 		self.curroad = newroad
+		self.timetonext = int(newroad.dist())
 		i = 0
 		try:
 			i = self.route.index(newnode)
 		except ValueError:
 			self.route = doRouteT(self,turnnode,newnode,self.destnode,map)
 			i = self.route.index(newnode)
-		if self.route[i+self.routedirection] == turnnode:
+		try:
+			if self.route[i+self.routedirection] == turnnode:
+				self.routedirection *= -1
+		except IndexError:
 			self.routedirection *= -1
-		self.nextnode = self.route[i+self.routedirection]
-		#!!!! SHOULD BE CHANGED!!!
-		self.timetonext = int(newroad.dist())
+			try:
+				if self.route[i+self.routedirection] == turnnode:
+					self.routedirection *= -1
+			except IndexError:
+					self.destnode = newnode
+					self.nextnode = newnode
+					return
+		else:
+			self.nextnode = self.route[i+self.routedirection]
+
 		
 	
 	def getNextNode(self,oldroad,turnnode,map):
@@ -42,11 +61,12 @@ class Car:
 	def tick(self,road,node,map,rand):
 		self.onTick(road,node,map,rand)
 		self.timetonext -= 1
-		print("car tick")
 		return self.timetonext <= 0
 			
 	def emergency_reroute(self,road,turnnode,map):
-		pass
+		r = doRoute(self,turnnode,self.destnode,map)
+		self.route = r
+		return r[0]
 	
 	def onTick(self,road,node,map,rand):
 		pass
@@ -74,15 +94,19 @@ def doRoute(car,begin,end,map):
 	bestroute = {begin:begin}
 	queue=[begin]
 	
-	while end not in bestroute:
-		nod = queue.pop()
-		for n in nod.connections.keys():
-			if n not in bestroute:
-				bestroute[n]=nod
-				queue.append(n)
-			if n == end:
-				break
-	del queue
+	try:
+		while end not in bestroute:
+			nod = queue.pop()
+			for n in nod.connections.keys():
+				if n not in bestroute:
+					bestroute[n]=nod
+					queue.append(n)
+				if n == end:
+					break
+	except IndexError:
+		return [begin]
+	finally:
+		del queue
 	#start building route
 	n = end
 	a=[]

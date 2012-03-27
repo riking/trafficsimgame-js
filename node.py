@@ -12,5 +12,7 @@ class CarGenNode (world.Node):
 		self.tickcount -= 1
 		if self.tickcount <= 0:
 			self.tickcount = self.delay
+			print("making car")
 			c = self.car(self,map,rand,rand.choice(map.nodelist))
-			c.routeInit()
+			c.routeInit(self,map,rand)
+			self.carArrived(c,None,map)

@@ -121,14 +121,16 @@ class Road:
 		else:
 			return self.cars[refnode]
 			
-			
+	def dist(self):
+		return self.distance	
+
 	def addCarFrom(self,onode,car):
 		self.cars[self.getNode(onode)].append(car)
 	
-	def tick(self,node,map,rand):
-		self.onTick(node,map)
-		for car in self.cars[node]:
-			if car.tick(self,onode,map):
+	def tick(self,onode,map,rand):
+		self.onTick(onode,map)
+		for car in self.cars[onode]:
+			if car.tick(self,onode,map,rand):
 				onode.carArrived(car,self,map)
 				self.cars[onode].remove(car)
 		
@@ -199,11 +201,19 @@ class Node:
 		pass #Reserved for subclasses
 		
 	def carArrived(self,car,road,map):
+		if self == car.destination():
+			print("car arrived")
+			car.cleanup()
+			del car
+			return #hopefully this will kill it
 		nn = car.getNextNode(road,self,map)
 		if nn not in self.connections.keys():
 			nn = car.emergency_reroute(road,self,map)
 			if nn not in self.connections.keys():
-				raise AssertionError("car.emergency_rereoute failed to give a valid next node")
+				print("car.emergency_rereoute failed to give a valid next node, deleting car")
+				car.cleanup()				
+				del car
+				return
 		self.connections[nn].addCarFrom(self,car)
 		car.notifyRoadChange(self,nn,road,self.connections[nn],map)
 	
@@ -242,7 +252,11 @@ def mapGen(seed=None,size=2000,density=.3,roadrange=300,roadchance=.66,roadpasse
 if __name__ == "__main__":
 	m,r = mapGen()
 	m.print_()
-	m.tick(r)
-	del m
-	m = mapGen().print_()
-	del m
+	for i in range(100):
+		m.tick(r)
+	for n in m.nodelist:
+		for r in n.connections.values():
+			for c in r.carList(n):
+				print(c)
+
+	
