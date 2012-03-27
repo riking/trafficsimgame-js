@@ -62,9 +62,9 @@ class Map:
 		output_size = 40
 		output_res = self.size / output_size
 		#
-		FILLER = ' '
-		ROAD = '+'
-		NODE = '#'
+		FILLER = u' '
+		ROAD = u'+'
+		NODE = u'#'
 		#
 		import array;
 		output = []
