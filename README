@@ -1,22 +1,7 @@
-This project is now written in python, because it is pythonic to not have interdependence between classes when it is unneccessary, and interdependence was basically the bane of the java version.
-(temp)
-note to self: add to .gitconfig
-  [color]
-    ui = auto
-  [color "branch"]
-    current = yellow reverse
-    local = yellow
-    remote = green
-  [color "diff"]
-    meta = yellow bold
-    frag = magenta bold
-    old = red bold
-    new = green bold
-  [color "status"]
-    added = yellow
-    changed = green
-    untracked = cyan
-
+This project is now written in python, because the interdependencies
+were becoming a clusterfuck, and in python it is good practice to not have
+interdependence between classes when it is unneccessary.
+(aka it'll put me in a better coding viewpoint)
 
 ===Old Readme===
 This project is written in Java. To view the code, open src/
