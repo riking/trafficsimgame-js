@@ -5,6 +5,7 @@ class Car:
 		if destination==None:
 			destination = rand.choice(map.nodelist)
 		self.startnode = origin
+		self.lastnode = origin
 		self.curnode = None # node we're traveling towards
 		self.curroad = None # road we're on
 		self.nextnode = None # node _after_ the curnode
@@ -26,6 +27,10 @@ class Car:
 	def getTime(self,road):
 		return int(road.dist()/30)
 		
+	def getPosition(self):
+		t=self.getTime(self.curroad)
+		return self.lastnode.pos + (self.curnode.pos - self.lastnode.pos)*(t-self.timetonext)/t
+		
 	def routeInit(self,origin,map,rand):
 		if origin==self.destnode:
 			return
@@ -37,6 +42,7 @@ class Car:
 		return True
 
 	def notifyRoadChange(self,turnnode,newnode,oldroad,newroad,map):
+		self.lastnode = turnnode
 		self.curnode = newnode
 		self.curroad = newroad
 		self.timetonext = self.getTime(newroad)
@@ -50,14 +56,10 @@ class Car:
 			if self.route[i+self.routedirection] == turnnode:
 				self.routedirection *= -1
 		except IndexError:
-			self.routedirection *= -1
-			try:
-				if self.route[i+self.routedirection] == turnnode:
-					self.routedirection *= -1
-			except IndexError:
-					self.destnode = newnode
-					self.nextnode = newnode
-					return
+			print("Car giving up!")
+			self.destnode = newnode
+			self.nextnode = newnode
+			return
 		else:
 			self.nextnode = self.route[i+self.routedirection]
 
@@ -102,6 +104,8 @@ def clearroutecache():
 def doRoute(car,begin,end,map):
 	if (begin, end) in routecache:
 		return routecache[(begin,end)]
+	if (end,begin) in routecache:
+		return routecache[(end,begin)][::-1]
 	#key = node, val = nodefrom
 	bestroute = {begin:begin}
 	queue=[begin]
