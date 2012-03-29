@@ -36,10 +36,14 @@ class Map:
 					for m in self.nodelist: #get each node in range
 						if n.dist(m) < roadsize:
 							a.append(m)
+					m = rand.choice(a)
+					a.remove(m)
+					n.addConnection(m)
 					while rand.random() < roadchance: #maybe connect to them
 						m = rand.choice(a)
 						a.remove(m)
 						n.addConnection(m)
+					
 				except IndexError:
 					# if there's no nodes within roadrange, find the nearest other node
 					
@@ -62,9 +66,9 @@ class Map:
 		output_size = 40
 		output_res = self.size / output_size
 		#
-		FILLER = u' '
-		ROAD = u'+'
-		NODE = u'#'
+		FILLER = ' '
+		ROAD = '+'
+		NODE = '#'
 		#
 		import array;
 		output = []
@@ -162,9 +166,13 @@ class Road:
 
 class Node:
 	#self.connections = {node: road, node: road}
-	def __init__(self,position):
+	def __init__(self,position,connect=None):
 		self.pos = vectors.Vector(position)
 		self.connections = {}
+		if connect != None:
+			for n in connect:
+				self.addConnection(n)
+				
 	
 	def __eq__(self,other):
 		if isinstance(other,Node):
@@ -173,6 +181,12 @@ class Node:
 		
 	def __hash__(self):
 		return self.pos.__hash__()
+		
+	def __str__(self):
+		return str(self.pos)
+		
+	def __repr__(self):
+		return "Node(%s,%s)"%(str(self.pos),len(self.connections))
 		
 	def getPos(self):
 		return self.pos
