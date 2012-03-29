@@ -3,6 +3,8 @@ were becoming a clusterfuck, and in python it is good practice to not have
 interdependence between classes when it is unneccessary.
 (aka it'll put me in a better coding viewpoint)
 
+Entry point is in world.py
+
 ===Old Readme===
 This project is written in Java. To view the code, open src/
 For downloads, open jars/
