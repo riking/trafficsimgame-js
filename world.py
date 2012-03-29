@@ -69,6 +69,7 @@ class Map:
 		FILLER = ' '
 		ROAD = '+'
 		NODE = '#'
+		CAR = '>'
 		#
 		import array;
 		output = []
@@ -81,22 +82,25 @@ class Map:
 				m = r.getNode(n)
 				diff = (n.pos - m.pos)/20
 				for i in range(20):
-					tem = ((n.pos - diff*i)/output_res)._intvals()
+					tem = (n.pos - diff*i)//output_res
 					output[tem[0]][tem[1]] = ROAD
+		
+		print("drawing cars")
+		for n in self.nodelist:
+			for r in n.connections.values():
+				for c in r.carList(n):
+					p=c.getPosition()//output_res
+					output[p[0]][p[1]] = CAR
 		
 		print("drawing nodes")
 		for n in self.nodelist:
 			p = n.pos// output_res
 			output[p[0]][p[1]] = NODE
 		
+		
 		# print output[]
 		for i in range(output_size):
 			print(''.join([j for j in output[i]]))
-			
-		for n in self.nodelist:
-			for r in n.connections.values():
-				for c in r.carList(n):
-					print(c)
 			
 
 	def tick(self,rand):
@@ -276,8 +280,11 @@ def mapGen(seed=None,size=2000,density=.3,roadrange=300,roadchance=.4,roadpasses
 if __name__ == "__main__":
 	m,r = mapGen()
 	m.print_()
+	import time
 	for i in range(1000):
 		m.tick(r)
+		m.print_()
+		time.sleep(0.5)
 
 
 	
