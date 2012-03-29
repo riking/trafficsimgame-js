@@ -177,7 +177,16 @@ class Node:
 	def __eq__(self,other):
 		if isinstance(other,Node):
 			return self.pos == other.pos
-		return False
+		if isinstance(other,vectors.Vector):
+			return self.pos == other
+		return NotImplemented
+		
+	def __ne__(self,other):
+		if isinstance(other,Node):
+			return self.pos != other.pos
+		if isinstance(other,vectors.Vector):
+			return self.pos != other
+		return NotImplemented
 		
 	def __hash__(self):
 		return self.pos.__hash__()
@@ -217,6 +226,7 @@ class Node:
 	def carArrived(self,car,road,map):
 		if self == car.destination():
 			print("car arrived")
+			print(car)
 			car.cleanup()
 			del car
 			return #hopefully this will kill it
@@ -224,8 +234,8 @@ class Node:
 		if nn not in self.connections.keys():
 			nn = car.emergency_reroute(road,self,map)
 			if nn not in self.connections.keys():
-				print("car.emergency_rereoute failed to give a valid next node, deleting car")
-				car.cleanup()				
+				#print("car.emergency_rereoute failed to give a valid next node, deleting car")
+				car.cleanup()
 				del car
 				return
 		self.connections[nn].addCarFrom(self,car)
@@ -258,7 +268,7 @@ class Node:
 ###############################################################################
 ###############################################################################
 
-def mapGen(seed=None,size=2000,density=.3,roadrange=300,roadchance=.66,roadpasses=2):
+def mapGen(seed=None,size=2000,density=.3,roadrange=300,roadchance=.4,roadpasses=2):
 	r = random.Random(seed)
 	m = Map(size).makeNodes(density,roadrange,r).makeRoads(roadrange,roadchance,roadpasses,r)
 	return m,r
@@ -266,11 +276,8 @@ def mapGen(seed=None,size=2000,density=.3,roadrange=300,roadchance=.66,roadpasse
 if __name__ == "__main__":
 	m,r = mapGen()
 	m.print_()
-	for i in range(100):
+	for i in range(1000):
 		m.tick(r)
-	for n in m.nodelist:
-		for r in n.connections.values():
-			for c in r.carList(n):
-				print(c)
+
 
 	
