@@ -17,20 +17,29 @@ class Car:
 		return "car at %s with %d ticks to %s" % (self.curroad.getNode(self.curnode),self.timetonext,self.curnode)
 
 	def __del__(self):
-		print("deleting car")
+		#print("deleting car")
+		pass
 
 	def destination(self):
 		return self.destnode
 
+	def getTime(self,road):
+		return int(road.dist()/30)
+		
 	def routeInit(self,origin,map,rand):
+		if origin==self.destnode:
+			return
 		r = doRoute(self,origin,self.destnode,map)
-		if r:
-			self.route = r
+		if r ==None:
+			return False
+		self.route = r
+		self.curroad = origin.connections[r[1]]
+		return True
 
 	def notifyRoadChange(self,turnnode,newnode,oldroad,newroad,map):
 		self.curnode = newnode
 		self.curroad = newroad
-		self.timetonext = int(newroad.dist())
+		self.timetonext = self.getTime(newroad)
 		i = 0
 		try:
 			i = self.route.index(newnode)
@@ -66,7 +75,10 @@ class Car:
 	def emergency_reroute(self,road,turnnode,map):
 		r = doRoute(self,turnnode,self.destnode,map)
 		self.route = r
-		return r[0]
+		try:
+			return r[1]
+		except Exception as exc:
+			self.cleanup() #delete self
 	
 	def onTick(self,road,node,map,rand):
 		pass
@@ -103,13 +115,13 @@ def doRoute(car,begin,end,map):
 					queue.append(n)
 				if n == end:
 					break
-	except IndexError:
-		return [begin]
+	except IndexError as exc:
+		return None
 	finally:
 		del queue
 	#start building route
 	n = end
-	a=[]
+	a=[n]
 	while n != begin:
 		a.append(bestroute[n])
 		n=bestroute[n]
