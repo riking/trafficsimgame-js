@@ -70,6 +70,7 @@ class Intersection:
 				car.cleanup()
 				del car
 				return
+		node.connections[nn].addCarFrom(self,car)
 		car.notifyRoadChange(node,nn,roadfrom,node.connections[nn],map)
 	
 	
