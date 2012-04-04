@@ -1,6 +1,6 @@
 from __future__ import division;
 import math,random;
-import vectors,cars;
+import vectors,cars,node;
 
 class Map:
 	def __init__(self,siz):
@@ -170,12 +170,16 @@ class Road:
 
 class Node:
 	#self.connections = {node: road, node: road}
-	def __init__(self,position,connect=None):
+	def __init__(self,position,connect=None,manager=None):
 		self.pos = vectors.Vector(position)
 		self.connections = {}
-		if connect != None:
+		if connect:
 			for n in connect:
 				self.addConnection(n)
+		if manager:
+			self.imanager = manager
+		else:
+			self.imanager = node.ZeroWaitIntersection(self)
 				
 	
 	def __eq__(self,other):
@@ -234,16 +238,7 @@ class Node:
 			car.cleanup()
 			del car
 			return #hopefully this will kill it
-		nn = car.getNextNode(road,self,map)
-		if nn not in self.connections.keys():
-			nn = car.emergency_reroute(road,self,map)
-			if nn not in self.connections.keys():
-				#print("car.emergency_rereoute failed to give a valid next node, deleting car")
-				car.cleanup()
-				del car
-				return
-		self.connections[nn].addCarFrom(self,car)
-		car.notifyRoadChange(self,nn,road,self.connections[nn],map)
+		self.imanager.carArrived(self,car,road,map)
 	
 	def dist(self,other):
 		return math.sqrt((self.pos[0] - other.pos[0])**2 + (self.pos[1] - other.pos[1])**2)
