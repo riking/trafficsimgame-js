@@ -160,12 +160,12 @@ class Road:
                     except (NameError, AttribuiteError):
                         pass #dump it. this is because we're cleaning up circular references
             del self.cars
-        except (NameError, AttribuiteError):
+        except (NameError, AttributeError):
             pass #whee, circular references are fun!
         try:
             del self.node1
             del self.node2
-        except (NameError, AttribuiteError):
+        except (NameError, AttributeError):
             pass
 
 
