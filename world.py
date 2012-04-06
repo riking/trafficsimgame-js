@@ -1,6 +1,12 @@
+# Comments go here
 from __future__ import division;
-import math,random;
-import vectors,cars,node;
+import math
+import random
+
+import vectors
+
+import cars
+import node
 
 class Map:
 	def __init__(self,siz):
@@ -12,14 +18,13 @@ class Map:
 			n.cleanup()
 		
 	def makeNodes(self,density,roadrange,rand):
-		import node;
 		for i in range(int(self.size * density)):
 			q=None
 			#should replace with a customizable weights function
 			if rand.random() < 0.1:
 				q=node.CarGenNode(((rand.randint(1,self.size), rand.randint(1,self.size))))
 			else:
-				q=Node((rand.randint(1,self.size), rand.randint(1,self.size)))
+				q=node.Node((rand.randint(1,self.size), rand.randint(1,self.size)))
 				
 			for n in self.nodelist:
 				if n.dist(q) < roadrange *2* density:
@@ -168,97 +173,7 @@ class Road:
 ###############################################################################
 ###############################################################################
 
-class Node:
-	#self.connections = {node: road, node: road}
-	def __init__(self,position,connect=None,manager=None):
-		self.pos = vectors.Vector(position)
-		self.connections = {}
-		if connect:
-			for n in connect:
-				self.addConnection(n)
-		if manager:
-			self.imanager = manager
-		else:
-			self.imanager = node.ZeroWaitIntersection(self)
-				
-	
-	def __eq__(self,other):
-		if isinstance(other,Node):
-			return self.pos == other.pos
-		if isinstance(other,vectors.Vector):
-			return self.pos == other
-		return NotImplemented
-		
-	def __ne__(self,other):
-		if isinstance(other,Node):
-			return self.pos != other.pos
-		if isinstance(other,vectors.Vector):
-			return self.pos != other
-		return NotImplemented
-		
-	def __hash__(self):
-		return self.pos.__hash__()
-		
-	def __str__(self):
-		return str(self.pos)
-		
-	def __repr__(self):
-		return "Node(%s,%s)"%(str(self.pos),len(self.connections))
-		
-	def getPos(self):
-		return self.pos
-	
-	def addConnection(self,other):
-		r = Road(self,other)
-		if other in self.connections.keys():
-			return
-		self.connections[other] = r
-		other.addConnectionCB(self,r)
-		
-	def addConnectionCB(self,other,road):
-		self.connections[other] = road
-		
-	def getRoad(self,other):
-		if other in self.connections:
-			return self.connections[other]
-		return None
-	
-	def tick(self,map,rand):
-		self.onTick(map,rand)
-		for r in self.connections.values():
-			r.tick(self,map,rand)
-	
-	def onTick(self,map,rand):
-		pass #Reserved for subclasses
-		
-	def carArrived(self,car,road,map):
-		if self == car.destination():
-			print("car arrived")
-			print(car)
-			car.cleanup()
-			del car
-			return #hopefully this will kill it
-		self.imanager.carArrived(self,car,road,map)
-	
-	def dist(self,other):
-		return math.sqrt((self.pos[0] - other.pos[0])**2 + (self.pos[1] - other.pos[1])**2)
 
-	def coordstr(self):
-		return str(self.pos)
-	
-	def fullDescription(self):
-		cstr = ""
-		for c,r in self.connections.items():
-			cstr += c.coordstr()
-		return "Node at %s \nConnected to: %s" % (self.pos,cstr)
-		
-	def cleanup(self): #on map exit. clean up circular references
-		try:
-			for n,r in self.connections.items():
-				r.cleanup()
-			del self.connections
-		except NameError as exc:
-			pass #...then dump it
 
 
 ###############################################################################
